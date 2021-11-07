@@ -17,7 +17,7 @@ paths:
   '/dtlab-alligator/webhook/{webhook_impl_id}':
     parameters:
       - schema:
-          webhook: string
+          type: string
         name: webhook_impl_id
         in: path
         required: true
@@ -39,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                webhook: object
+                type: object
                 properties: {}
       operationId: post-dtlab-alligator-webhook-webhookId
       description: create a new webhook that will forward DT state changes to external services
@@ -470,7 +470,7 @@ components:
           value: 2.2
     Webhook:
       title: Webhook
-      webhook: object
+      type: object
       description: "specify pattern of interest and destination to forward matching state changes"
       properties:
         dtType:
