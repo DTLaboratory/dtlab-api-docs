@@ -14,6 +14,72 @@ servers:
   - url: 'http://localhost:8081'
     description: dev local mode
 paths:
+  '/dtlab-alligator/webhook/{webhook_impl_id}':
+    parameters:
+      - schema:
+          webhook: string
+        name: webhook_impl_id
+        in: path
+        required: true
+    post:
+      summary: create webhook
+      tags:
+        - tell
+      responses:
+        '201':
+          description: 'If successfully created, returned object will be updated with webhookId and create datetime'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Unauthorized
+        '409':
+          description: Conflict - you must delete the previous entry before creating a webhook of the same name.
+          content:
+            application/json:
+              schema:
+                webhook: object
+                properties: {}
+      operationId: post-dtlab-alligator-webhook-webhookId
+      description: create a new webhook that will forward DT state changes to external services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+        description: a copy of the successfully created webhook definition
+    get:
+      summary: get webhook
+      tags:
+        - ask
+      responses:
+        '200':
+          description: Definition of the webhook
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-dtlab-alligator-webhookId
+      description: Look up a webhook definition.
+    delete:
+      summary: delete webhook
+      tags:
+        - tell
+      operationId: delete-dtlab-alligator-webhook-webhookId
+      responses:
+        '202':
+          description: Accepted
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: "Delete the webhookId."
   '/dtlab-alligator/actor/{typeId}/{instanceId}/operator':
     parameters:
       - schema:
@@ -402,6 +468,27 @@ components:
         example-2:
           name: height
           value: 2.2
+    Webhook:
+      title: Webhook
+      webhook: object
+      description: "specify pattern of interest and destination to forward matching state changes"
+      properties:
+        dtType:
+          type: string
+        eventType:
+          type: string
+        target:
+          type: object
+          description: "destination for webhook HTTP(S) POST"
+          properties:
+            host:
+              type: string
+            port:
+              type: integer
+            path:
+              type: string
+            tls:
+              type: boolean
 tags:
   - name: ask
   - name: tell
