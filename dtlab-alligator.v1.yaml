@@ -310,6 +310,27 @@ paths:
       description: remove all traces of the DT - removes the journal.
 components:
   schemas:
+    Operator:
+      title: Operator
+      type: object
+      description: "Specified inputs and outputs of an operator plus parameters that can be used as constants on every invocation."
+      properties:
+        name:
+          type: string
+        implementation:
+          type: string
+        params:
+          type: array
+          items:
+            type: number
+        input:
+          type: array
+          items:
+            type: integer
+        output:
+          type: array
+          items:
+            type: integer
     Type:
       title: Type
       type: object
