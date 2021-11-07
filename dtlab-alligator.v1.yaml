@@ -4,8 +4,8 @@ info:
   version: '1.0'
   contact:
     name: navicore
-    email: ed@onextent.com
-    url: 'https://somind.github.io/'
+    email: ed@dtlaboratory.com
+    url: 'https://home.dtlaboratory.com'
   license:
     name: MIT
     url: 'https://github.com/SoMind/dtlab-scala-alligator/blob/master/LICENSE'
