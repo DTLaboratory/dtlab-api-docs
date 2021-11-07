@@ -14,6 +14,75 @@ servers:
   - url: 'http://localhost:8081'
     description: dev local mode
 paths:
+  '/dtlab-alligator/actor/{typeId}/{instanceId}/operator':
+    parameters:
+      - schema:
+          type: string
+          example: machinery
+        name: typeId
+        in: path
+        description: the name of the type that can show up in a path
+        required: true
+      - schema:
+          type: string
+          example: module0091
+        name: instanceId
+        in: path
+        description: the id of the instance of the type
+        required: true
+    post:
+      summary: configure an operator for a DT instance
+      tags:
+        - tell
+      responses:
+        '202':
+          description: Accepted
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      operationId: post-dtlab-alligator-type-actorId-operator
+      description: |-
+        Update an actor instance operator configuration with attached params and input and output IDs
+      requestBody:
+        description: The operator specified in json
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operator'
+    get:
+      summary: get operator config
+      tags:
+        - ask
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Operator'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-dtlab-alligator-actorId-operator
+      description: |-
+        Look up a the config of an operator in a DT.
+    delete:
+      summary: delete operator from the DT
+      tags:
+        - tell
+      operationId: delete-dtlab-alligator-actor-typeId-instanceId-operator
+      responses:
+        '202':
+          description: Accepted
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: remove all traces of the operator from the DT
   '/dtlab-alligator/type/{typer}':
     parameters:
       - schema:
